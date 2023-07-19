@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/reloader"
+require "active_support/all"
 
 get("/") do
   erb(:homepage)
@@ -32,8 +33,8 @@ get '/payment/results' do
   aprFormatted = '%.4f' % apr
   @aprWithPercentSign = aprFormatted.to_s + "%"
   @years = params.fetch("user_years").to_f
-  @principal = params.fetch("user_pv").to_f.round(2)
-  @principalFormatted = "$" + @principal.to_s
+  @principal = params.fetch("user_pv").to_f
+  @principalFormatted = @principal.to_fs(:currency)
   aprDecimal = apr/100
   aprDecimalMonthly = aprDecimal / 12
   numerator = aprDecimalMonthly * @principal
@@ -41,7 +42,7 @@ get '/payment/results' do
   aprPlusOne = aprDecimalMonthly + 1
   denominator = 1 - (aprPlusOne**-totalMonths)
   payment = numerator / denominator
-  @monthlyPayment = "$" + payment.round(2).to_s
+  @monthlyPayment = payment.to_fs(:currency)
   erb(:payment_results)
 end
 

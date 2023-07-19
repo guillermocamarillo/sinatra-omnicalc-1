@@ -55,6 +55,8 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.18.1)
+    money (6.16.0)
+      i18n (>= 0.6.4, <= 2)
     multi_json (1.15.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
@@ -146,6 +148,7 @@ DEPENDENCIES
   draft_matchers
   grade_runner
   i18n
+  money (~> 6.7, >= 6.7.1)
   pry
   puma (~> 5.0)
   rspec

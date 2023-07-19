@@ -28,12 +28,13 @@ get("/payment/new") do
 end
 
 get '/payment/results' do
-  @apr = params.fetch("user_apr").to_f.round(4)
-  @aprWithPercentSign = @apr.to_s + "%"
+  apr = params.fetch("user_apr").to_f
+  aprFormatted = '%.4f' % apr
+  @aprWithPercentSign = aprFormatted.to_s + "%"
   @years = params.fetch("user_years").to_f
   @principal = params.fetch("user_pv").to_f.round(2)
   @principalFormatted = "$" + @principal.to_s
-  aprDecimal = @apr/100
+  aprDecimal = apr/100
   aprDecimalMonthly = aprDecimal / 12
   numerator = aprDecimalMonthly * @principal
   totalMonths = 12 * @years
@@ -42,4 +43,17 @@ get '/payment/results' do
   payment = numerator / denominator
   @monthlyPayment = "$" + payment.round(2).to_s
   erb(:payment_results)
+end
+
+get("/random/new") do
+  erb(:new_random)
+end
+
+get '/random/results' do
+  @min = params.fetch("user_min").to_f.round(1)
+  @max= params.fetch("user_max").to_f.round(1)
+
+  @randomNum = rand(@min..@max).round(15)
+  erb(:random_results)
+
 end
